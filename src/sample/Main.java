@@ -63,6 +63,7 @@ public class Main extends Application {
         registers.add(new Register("$ra", 31, 0));
         registers.add(new Register("$pc", 32, 0));
         registers.add(new Register("$hi", 33, 0));
+        registers.add(new Register("$lo", 34, 0));
 
         ObservableList<Register> data = FXCollections.observableArrayList(registers);
 

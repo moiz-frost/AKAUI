@@ -34,6 +34,7 @@ public class Controller {
                 System.out.println("File Not Found.");
                 return;
             }
+            code.setText("");
             while (input.hasNext()) {
                 String line = input.nextLine().trim();
                 code.appendText(line + "\n");
