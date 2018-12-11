@@ -13,15 +13,15 @@ public class Parser {
     ArrayList<String> code;
     Scanner input;
     AKAMips machine;
-    Map<String, Integer> codeLabels;
-    Map<String, Integer> dataLabels;
+    LinkedMap<String, Integer> codeLabels;
+    LinkedMap<String, Integer> dataLabels;
 
     Parser(AKAMips m) {
         machine = m;
         File file = m.prog;
         code = new ArrayList<String>();
-        codeLabels = new LinkedHashMap<String, Integer>();
-        dataLabels = new LinkedHashMap<String, Integer>();
+        codeLabels = new LinkedMap<String, Integer>();
+        dataLabels = new LinkedMap<String, Integer>();
         try {
             input = new Scanner(file);
         } catch (FileNotFoundException e) {

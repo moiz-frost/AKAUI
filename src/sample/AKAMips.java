@@ -13,14 +13,14 @@ public class AKAMips {
     int[] memory = new int[1000];
     int registers[] = new int[35];
     int mp = 0;
-    Map<String, Integer> regMap;
+    LinkedMap<String, Integer> regMap;
     Parser parser;
     Scanner input;
     File prog;
 
     AKAMips() {
         input = new Scanner(System.in);
-        regMap = new LinkedHashMap<String, Integer>();
+        regMap = new LinkedMap<String, Integer>();
         regMap.put("$zero", 0);
         regMap.put("$at", 1);
         regMap.put("$v0", 2);
