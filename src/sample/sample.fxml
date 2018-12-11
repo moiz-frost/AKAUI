@@ -6,6 +6,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
@@ -31,6 +33,13 @@
         </menus>
       </MenuBar>
       <TableView fx:id="registerTable" layoutX="785.0" layoutY="27.0" prefHeight="449.0" prefWidth="240.0" AnchorPane.rightAnchor="-1.0" />
-      <TextArea fx:id="code" layoutY="27.0" prefHeight="449.0" prefWidth="785.0" wrapText="true" AnchorPane.leftAnchor="0.0" />
+      <TextArea fx:id="code" layoutX="3.0" layoutY="27.0" prefHeight="449.0" prefWidth="542.0" wrapText="true" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="479.0" />
+      <TableView fx:id="ram_table" layoutX="545.0" layoutY="27.0" prefHeight="449.0" prefWidth="240.0" AnchorPane.rightAnchor="239.0" />
+      <TextArea fx:id="console" layoutX="74.0" layoutY="524.0" prefHeight="245.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="523.0" />
+      <Text fill="#ff001a" layoutX="14.0" layoutY="510.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Console" textAlignment="CENTER" wrappingWidth="122.556640625" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="487.0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

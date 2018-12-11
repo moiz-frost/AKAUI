@@ -43,6 +43,9 @@ public class Controller {
 
     @FXML
     public void executeCode(ActionEvent event) {
+        code.getParagraphs().forEach((line) -> {
+            System.out.println(line);
+        });
         /* Do your parsing/exec logic here*/
     }
 }
