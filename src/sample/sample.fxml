@@ -15,19 +15,15 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem mnemonicParsing="false" onAction="#executeCode" text="Run" />
-                  <MenuItem mnemonicParsing="false" onAction="#chooseSingleFile" text="Load File" />
-              <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem mnemonicParsing="false" onAction="#chooseSingleFile" text="Open" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+          <Menu mnemonicParsing="false" text="Execute">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+                  <MenuItem fx:id="assemble" disable="true" mnemonicParsing="false" onAction="#assemble" text="Assemble" />
+                  <MenuItem fx:id="run_menu_item" disable="true" mnemonicParsing="false" onAction="#executeCode" text="Run" />
+              <MenuItem fx:id="step_forward" disable="true" mnemonicParsing="false" onAction="#stepForward" text="Step Forward" />
             </items>
           </Menu>
         </menus>
@@ -35,7 +31,7 @@
       <TableView fx:id="registerTable" layoutX="785.0" layoutY="27.0" prefHeight="449.0" prefWidth="240.0" AnchorPane.rightAnchor="-1.0" />
       <TextArea fx:id="code" layoutX="3.0" layoutY="27.0" prefHeight="449.0" prefWidth="542.0" wrapText="true" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="479.0" />
       <TableView fx:id="ram_table" layoutX="545.0" layoutY="27.0" prefHeight="449.0" prefWidth="240.0" AnchorPane.rightAnchor="239.0" />
-      <TextArea fx:id="console" layoutX="74.0" layoutY="524.0" prefHeight="245.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="523.0" />
+      <TextArea fx:id="console" editable="false" layoutX="74.0" layoutY="524.0" prefHeight="245.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="523.0" />
       <Text fill="#ff001a" layoutX="14.0" layoutY="510.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Console" textAlignment="CENTER" wrappingWidth="122.556640625" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="487.0">
          <font>
             <Font size="21.0" />

@@ -22,7 +22,7 @@ public class Register {
     public int getNumber() {
         return this.number;
     }
-    public void setNumer(int number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 

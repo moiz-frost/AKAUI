@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
@@ -9,6 +10,8 @@ import javafx.event.ActionEvent;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Controller {
@@ -17,7 +20,22 @@ public class Controller {
     private AnchorPane anchor;
 
     @FXML
+    private MenuItem assemble;
+    @FXML
+    private MenuItem run_menu_item;
+
+    @FXML
+    private MenuItem step_forward;
+
+    @FXML
     private TextArea code;
+
+    @FXML
+    private TextArea console;
+
+    AKAMips asm = new AKAMips();
+
+    File selectedFile;
 
     @FXML
     public void chooseSingleFile(ActionEvent event) {
@@ -25,7 +43,7 @@ public class Controller {
         fileChooser.setTitle("Open asm file");
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Asm Files", "*.asm"));
-        File selectedFile = fileChooser.showOpenDialog(null);
+        selectedFile = fileChooser.showOpenDialog(null);
         if (selectedFile != null) {
             Scanner input = null;
             try {
@@ -39,14 +57,61 @@ public class Controller {
                 String line = input.nextLine().trim();
                 code.appendText(line + "\n");
             }
+            assemble.setDisable(false);
         }
     }
 
     @FXML
+    public void saveFile(ActionEvent event){
+
+    }
+
+    @FXML
     public void executeCode(ActionEvent event) {
-        code.getParagraphs().forEach((line) -> {
-            System.out.println(line);
-        });
+        asm.exec();
+        for (int i = 0; i < asm.registers.length; i++) {
+            RegisterTable.data.get(i).setValue(asm.registers[i]);
+        }
+        for (int i = 0; i < asm.memory.length; i++) {
+            RAMTable.data.get(i).setValue(asm.memory[i]);
+        }
+        RAMTable.table.refresh();
+        RegisterTable.table.refresh();
+//        RegisterTable.getData().forEach((val) -> {
+//            System.out.println();
+//        });
+//        System.out.println(RegisterTable.getData().get(0).getName());
+//        RegisterTable.data.get(0).setNumber(99);
+//        RegisterTable.table.refresh();
+
+
         /* Do your parsing/exec logic here*/
+    }
+
+    @FXML
+    public void stepForward(ActionEvent event) {
+        if (asm.registers[32] < asm.parser.code.size()) {
+            asm.parser.parseLine(asm.registers[32]++);
+            for (int i = 0; i < asm.registers.length; i++) {
+                RegisterTable.data.get(i).setValue(asm.registers[i]);
+            }
+            for (int i = 0; i < asm.memory.length; i++) {
+                RAMTable.data.get(i).setValue(asm.memory[i]);
+            }
+            RAMTable.table.refresh();
+            RegisterTable.table.refresh();
+        }
+    }
+
+    @FXML
+    public void assemble(ActionEvent event) {
+        asm.loadFile(selectedFile);
+        for (int i = 0; i < asm.memory.length; i++) {
+            RAMTable.data.get(i).setValue(asm.memory[i]);
+        }
+        RAMTable.table.refresh();
+        step_forward.setDisable(false);
+        run_menu_item.setDisable(false);
+        System.out.println("Compiled");
     }
 }

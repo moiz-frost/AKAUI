@@ -162,6 +162,8 @@ public class Parser {
 //                code.set(pc, "lui $at, 4097");
 //                code.add(pc + 1, "ori " + tokens[1] + ", $at, ");
 //                machine.registers[32]--;
+
+
                 machine.registers[machine.regMap.get(tokens[1])] = dataLabels.get(tokens[2]);
                 break;
             case "li":

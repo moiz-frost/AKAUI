@@ -1,12 +1,13 @@
 package sample;
 
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextInputDialog;
+
 import java.io.File;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 // http://www.dsi.unive.it/~gasparetto/materials/MIPS_Instruction_Set.pdf
+
 public class AKAMips {
 
     int[] memory = new int[1000];
@@ -52,9 +53,8 @@ public class AKAMips {
         parser = new Parser(this);
     }
     void exec() {
-        for (registers[32] = 0; registers[32] < parser.code.size(); ) {
+        for (registers[32] = 0; registers[32] < parser.code.size(); registers[32]++) {
             parser.parseLine(registers[32]);
-            registers[32]++;
         }
     }
 
@@ -82,9 +82,20 @@ public class AKAMips {
         }
         System.out.print(s);
     }
+
     void read_int() {
         registers[2] = input.nextInt();
+//        TextInputDialog dialog = new TextInputDialog("walter");
+//        dialog.setTitle("Text Input Dialog");
+//        dialog.setHeaderText("Look, a Text Input Dialog");
+//        dialog.setContentText("Please enter your name:");
+//        dialog.show();
+//        Optional<String> result = dialog.showAndWait();
+//        if (result.isPresent()){
+//            System.out.println("Your name: " + result.get());
+//        }
     }
+
     void read_string() {
         String s = input.next(".*\\n\\n");
         int start = mp;
@@ -106,12 +117,12 @@ public class AKAMips {
 
     }
 
-    public void run(String[] args) {
-        File file;
-        file = new File("loop_func.asm");
-        AKAMips asm = new AKAMips();
-        asm.loadFile(file);
-        asm.exec();
+    public void run() {
+//        File file;
+//        file = new File("temp.asm");
+//        AKAMips asm = new AKAMips();
+//        asm.loadFile(file);
+//        asm.exec();
 //        file = new File("program.asm");
 //        asm = new AKAMips();
 //        asm.loadFile(file);
