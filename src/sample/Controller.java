@@ -63,7 +63,27 @@ public class Controller {
 
     @FXML
     public void saveFile(ActionEvent event){
-
+        if (selectedFile != null) {
+            try {
+                File file = selectedFile;
+                FileWriter fileWriter = new FileWriter(file);
+                fileWriter.write("");
+                code.getParagraphs().forEach((line) -> {
+                    try {
+                        fileWriter.write(line + "\n");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                fileWriter.flush();
+                fileWriter.close();
+                System.out.println("Saved to " + selectedFile.getName());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("No file opened");
+        }
     }
 
     @FXML
