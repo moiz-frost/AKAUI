@@ -1,97 +1,62 @@
-# Simple routine to demo a loop
-# Compute the sum of N integers: 1 + 2 + 3 + ... + N
-# Same result as example4, but here a function performs the
-# addition operation:  int add(int num1, int num2)
 
-# ------------------------------------------------------------------
-	
-	.text
+.data
+prompt1: .asciiz "Enter the sequence index\n"
+prompt2: .asciiz "The Fibonacci value is:\n"
 
-	.globl	main
-main:
-	# Register assignments
-	# $s0 = N
-	# $s1 = counter (i)
-	# $s2 = sum
-	
-	# Print msg1
-	li	$v0,4		# print_string syscall code = 4
-	la	$a0, msg1	
-	syscall
+.text
+# Print prompt1
+li $v0, 4
+la $a0, prompt1
+syscall
 
-	# Get N from user and save
-	li	$v0,5		# read_int syscall code = 5
-	syscall	
-	move	$s0,$v0		# syscall results returned in $v0
+# Read string
+li $v0, 5
+syscall
 
-	# Initialize registers
-	li	$s1, 0		# Reg $s1 = counter (i)
-	li	$s2, 0		# Reg $s2 = sum
+# Call fibonacci
+move $a0, $v0
+jal fibonacci
+move $a1, $v0 # save return value to a1
 
-	# Main loop body
-loop:	addi	$s1, $s1, 1	# i = i + 1
-	
-	# Call add function
-	move	$a0, $s2	# Argument 1: sum ($s2)
-	move	$a1, $s1	# Argument 2: i ($s1)
-	jal	add2		# Save current PC in $ra, and jump to add2
-	move	$s2,$v0		# Return value saved in $v0. This is sum ($s2)
-	beq	$s0, $s1, exit	# if i = N, continue
-	j	loop
+# Print prompt2
+li $v0, 4
+la $a0, prompt2
+syscall
 
-	# Exit routine - print msg2
-exit:	li	$v0, 4		# print_string syscall code = 4
-	la	$a0, msg2
-	syscall
+# Print result
+li $v0, 1
+move $a0, $a1
+syscall
 
-	# Print sum
-	li	$v0,1		# print_string syscall code = 4
-	move	$a0, $s2
-	syscall
+# Exit
+li $v0, 10
+syscall
 
-	# Print newline
-	li	$v0,4		# print_string syscall code = 4
-	la	$a0, lf
-	syscall
-	li	$v0,10		# exit
-	syscall
 
-# ------------------------------------------------------------------
-	
-	# FUNCTION: int add(int num1, int num2)
-	# Arguments are stored in $a0 and $a1
-	# Return value is stored in $v0
-	# Return address is stored in $ra (put there by jal instruction)
-	# Typical function operation is:
-	#  1.) Store registers on the stack that we will overwrite
-	#  2.) Run the function
-	#  3.) Save the return value
-	#  4.) Restore registers from the stack
-	#  5.) Return (jump) to previous location
-	# Note: This function is longer than it needs to be,
-	# in order to demonstrate the usual 5 step function process...
-	
-add2:	# Store registers on the stack that we will overwrite (just $s0)
-	addi $sp,$sp, -4	# Adjust stack pointer
-	sw $s0,0($sp)		# Save $s0 on the stack
 
-	# Run the function
-	add $s0,$a0,$a1		# Sum = sum + i
+## Function int fibonacci (int n)
+fibonacci:
+# Prologue
+addi $sp, $sp, -12
+sw $ra, 8($sp)
+sw $s0, 4($sp)
+sw $s1, 0($sp)
+move $s0, $a0
+li $v0, 1 # return value for terminal condition
+li $t0, 2
+ble $s0, $t0, fibonacciExit # check terminal condition
+addi $a0, $s0, -1 # set args for recursive call to f(n-1)
+jal fibonacci
+move $s1, $v0 # store result of f(n-1) to s1
+addi $a0, $s0, -2 # set args for recursive call to f(n-2)
+jal fibonacci
+add $v0, $s1, $v0 # add result of f(n-1) to it
+fibonacciExit:
+# Epilogue
+lw $ra, 8($sp)
+lw $s0, 4($sp)
+lw $s1, 0($sp)
+addi $sp, $sp, 12
+jr $ra
+## End of function fibonacci
 
-	# Save the return value in $v0
-	move $v0,$s0
-
-	# Restore overwritten registers from the stack
-	lw $s0,0($sp)
-	addi $sp,$sp,4		# Adjust stack pointer
-	
-	# Return from function
-	jr $ra			# Jump to addr stored in $ra
-	
-# ------------------------------------------------------------------
-	
-	# Start .data segment (data!)
-	.data
-msg1:	.asciiz	"Number of integers (N)?  "
-msg2:	.asciiz	"Sum = "
-lf:     .asciiz	"\n"

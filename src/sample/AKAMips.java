@@ -46,6 +46,7 @@ public class AKAMips {
         regMap.put("$hi", 33);
         regMap.put("$lo", 34);
         registers[29] = memory.length;
+        int rtx = 2;
 
     }
     void loadFile(File file){

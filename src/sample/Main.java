@@ -28,7 +28,7 @@ public class Main extends Application {
         TextArea ta = (TextArea) scene.lookup("#console");
         Console console = new Console(ta);
         PrintStream ps = new PrintStream(console, true);
-        System.setOut(ps);
+//        System.setOut(ps);
         System.setErr(ps);
 //        System.setIn();
 
@@ -36,6 +36,9 @@ public class Main extends Application {
         RAMTable.setInitialRAMValues(scene);
         primaryStage.setScene(scene);
         primaryStage.show();
+
+
+
     }
 
 

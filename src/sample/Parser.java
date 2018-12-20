@@ -2,15 +2,11 @@ package sample;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.management.MemoryType;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Parser {
 
-    ArrayList<String> code;
+    ArrayListCustom<String> code;
     Scanner input;
     AKAMips machine;
     LinkedMap<String, Integer> codeLabels;
@@ -19,7 +15,7 @@ public class Parser {
     Parser(AKAMips m) {
         machine = m;
         File file = m.prog;
-        code = new ArrayList<String>();
+        code = new ArrayListCustom<String>();
         codeLabels = new LinkedMap<String, Integer>();
         dataLabels = new LinkedMap<String, Integer>();
         try {
@@ -101,208 +97,214 @@ public class Parser {
         String addr;
         String offset;
         int jumpTo;
-        switch (tokens[0]) {
-            case "add":
-                machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])] + machine.registers[machine.regMap.get(tokens[3])];
-                break;
-            case "sub":
-                machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])] - machine.registers[machine.regMap.get(tokens[3])];
-                break;
-            case "addi":
-                machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])] + Integer.parseInt(tokens[3]);
-                break;
-            case "mul":
-                machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])] * machine.registers[machine.regMap.get(tokens[3])];
-                break;
-            case "mult":
-                long product = machine.registers[machine.regMap.get(tokens[1])] * machine.registers[machine.regMap.get(tokens[2])];
-                int hi = (int) (product >> 32);
-                int lo = (int) (product & 0xFFFFFFFF);
-                machine.registers[33] = hi;
-                machine.registers[34] = lo;
-                break;
-            case "div":
-                machine.registers[33] = machine.registers[machine.regMap.get(tokens[1])] % machine.registers[machine.regMap.get(tokens[2])];
-                machine.registers[34] = machine.registers[machine.regMap.get(tokens[1])] / machine.registers[machine.regMap.get(tokens[2])];
-                break;
-            case "and":
-                machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])] & machine.registers[machine.regMap.get(tokens[3])];
-                break;
-            case "or":
-                machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])] | machine.registers[machine.regMap.get(tokens[3])];
-                break;
-            case "andi":
-                machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])] & Integer.parseInt(tokens[3]);
-                break;
-            case "ori":
-                machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])] | Integer.parseInt(tokens[3]);
-                break;
-            case "sll":
-                machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])] << Integer.parseInt(tokens[3]);
-                break;
-            case "srl":
-                machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])] >> Integer.parseInt(tokens[3]);
-                break;
-            case "lw":
-                resplit = tokens[2].split("\\(");
-                offset = resplit[0];
-                addr = resplit[1].replaceAll("\\)", "");
-                machine.registers[machine.regMap.get(tokens[1])] = machine.memory[machine.registers[machine.regMap.get(addr)] + Integer.parseInt(offset)];
-                break;
-            case "sw":
-                resplit = tokens[2].split("\\(");
-                offset = resplit[0];
-                addr = resplit[1].replaceAll("\\)", "");
-                machine.memory[machine.registers[machine.regMap.get(addr)] + Integer.parseInt(offset)] = machine.registers[machine.regMap.get(tokens[1])];
-                break;
-            case "lui":
-                machine.registers[machine.regMap.get(tokens[1])] = machine.registers[Integer.parseInt(tokens[2])] << 16;
-                break;
-            case "la":
+        try {
+            switch (tokens[0]) {
+                case "add":
+                    machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])] + machine.registers[machine.regMap.get(tokens[3])];
+                    break;
+                case "sub":
+                    machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])] - machine.registers[machine.regMap.get(tokens[3])];
+                    break;
+                case "addi":
+                    machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])] + Integer.parseInt(tokens[3]);
+                    break;
+                case "mul":
+                    machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])] * machine.registers[machine.regMap.get(tokens[3])];
+                    break;
+                case "mult":
+                    long product = machine.registers[machine.regMap.get(tokens[1])] * machine.registers[machine.regMap.get(tokens[2])];
+                    int hi = (int) (product >> 32);
+                    int lo = (int) (product & 0xFFFFFFFF);
+                    machine.registers[33] = hi;
+                    machine.registers[34] = lo;
+                    break;
+                case "div":
+                    machine.registers[33] = machine.registers[machine.regMap.get(tokens[1])] % machine.registers[machine.regMap.get(tokens[2])];
+                    machine.registers[34] = machine.registers[machine.regMap.get(tokens[1])] / machine.registers[machine.regMap.get(tokens[2])];
+                    break;
+                case "and":
+                    machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])] & machine.registers[machine.regMap.get(tokens[3])];
+                    break;
+                case "or":
+                    machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])] | machine.registers[machine.regMap.get(tokens[3])];
+                    break;
+                case "andi":
+                    machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])] & Integer.parseInt(tokens[3]);
+                    break;
+                case "ori":
+                    machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])] | Integer.parseInt(tokens[3]);
+                    break;
+                case "sll":
+                    machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])] << Integer.parseInt(tokens[3]);
+                    break;
+                case "srl":
+                    machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])] >> Integer.parseInt(tokens[3]);
+                    break;
+                case "lw":
+                    resplit = tokens[2].split("\\(");
+                    offset = resplit[0];
+                    addr = resplit[1].replaceAll("\\)", "");
+                    machine.registers[machine.regMap.get(tokens[1])] = machine.memory[machine.registers[machine.regMap.get(addr)] + Integer.parseInt(offset)];
+                    break;
+                case "sw":
+                    resplit = tokens[2].split("\\(");
+                    offset = resplit[0];
+                    addr = resplit[1].replaceAll("\\)", "");
+                    machine.memory[machine.registers[machine.regMap.get(addr)] + Integer.parseInt(offset)] = machine.registers[machine.regMap.get(tokens[1])];
+                    break;
+                case "lui":
+                    machine.registers[machine.regMap.get(tokens[1])] = machine.registers[Integer.parseInt(tokens[2])] << 16;
+                    break;
+                case "la":
 //                code.set(pc, "lui $at, 4097");
 //                code.add(pc + 1, "ori " + tokens[1] + ", $at, ");
 //                machine.registers[32]--;
 
 
-                machine.registers[machine.regMap.get(tokens[1])] = dataLabels.get(tokens[2]);
-                break;
-            case "li":
-                machine.registers[machine.regMap.get(tokens[1])] = Integer.parseInt(tokens[2]);
-                break;
-            case "mfhi":
-                machine.registers[machine.regMap.get(tokens[1])] = machine.registers[33];
-                break;
-            case "mflo":
-                machine.registers[machine.regMap.get(tokens[1])] = machine.registers[34];
-                break;
-            case "move":
-                machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])];
-                break;
-            case "beq":
-                if (machine.registers[machine.regMap.get(tokens[1])] == machine.registers[machine.regMap.get(tokens[2])]) {
-                    try {
-                        jumpTo = Integer.parseInt(tokens[3]);
-                        machine.registers[32] = jumpTo-1;
-                    } catch (NumberFormatException e) {
-                        jumpTo = codeLabels.get(tokens[3]);
-                        machine.registers[32] = jumpTo-1;
+                    machine.registers[machine.regMap.get(tokens[1])] = dataLabels.get(tokens[2]);
+                    break;
+                case "li":
+                    machine.registers[machine.regMap.get(tokens[1])] = Integer.parseInt(tokens[2]);
+                    break;
+                case "mfhi":
+                    machine.registers[machine.regMap.get(tokens[1])] = machine.registers[33];
+                    break;
+                case "mflo":
+                    machine.registers[machine.regMap.get(tokens[1])] = machine.registers[34];
+                    break;
+                case "move":
+                    machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])];
+                    break;
+                case "beq":
+                    if (machine.registers[machine.regMap.get(tokens[1])] == machine.registers[machine.regMap.get(tokens[2])]) {
+                        try {
+                            jumpTo = Integer.parseInt(tokens[3]);
+                            machine.registers[32] = jumpTo - 1;
+                        } catch (NumberFormatException e) {
+                            jumpTo = codeLabels.get(tokens[3]);
+                            machine.registers[32] = jumpTo - 1;
+                        }
                     }
-                }
-                break;
-            case "bne":
-                if (machine.registers[machine.regMap.get(tokens[1])] != machine.registers[machine.regMap.get(tokens[2])]) {
-                    try {
-                        jumpTo = Integer.parseInt(tokens[3]);
-                        machine.registers[32] = jumpTo-1;
-                    } catch (NumberFormatException e) {
-                        jumpTo = codeLabels.get(tokens[3]);
-                        machine.registers[32] = jumpTo-1;
+                    break;
+                case "bne":
+                    if (machine.registers[machine.regMap.get(tokens[1])] != machine.registers[machine.regMap.get(tokens[2])]) {
+                        try {
+                            jumpTo = Integer.parseInt(tokens[3]);
+                            machine.registers[32] = jumpTo - 1;
+                        } catch (NumberFormatException e) {
+                            jumpTo = codeLabels.get(tokens[3]);
+                            machine.registers[32] = jumpTo - 1;
+                        }
                     }
-                }
-                break;
-            case "bgt":
-                if (machine.registers[machine.regMap.get(tokens[1])] > machine.registers[machine.regMap.get(tokens[2])]) {
-                    try {
-                        jumpTo = Integer.parseInt(tokens[3]);
-                        machine.registers[32] = jumpTo-1;
-                    } catch (NumberFormatException e) {
-                        jumpTo = codeLabels.get(tokens[3]);
-                        machine.registers[32] = jumpTo-1;
+                    break;
+                case "bgt":
+                    if (machine.registers[machine.regMap.get(tokens[1])] > machine.registers[machine.regMap.get(tokens[2])]) {
+                        try {
+                            jumpTo = Integer.parseInt(tokens[3]);
+                            machine.registers[32] = jumpTo - 1;
+                        } catch (NumberFormatException e) {
+                            jumpTo = codeLabels.get(tokens[3]);
+                            machine.registers[32] = jumpTo - 1;
+                        }
                     }
-                }
-                break;
-            case "bge":
-                if (machine.registers[machine.regMap.get(tokens[1])] >= machine.registers[machine.regMap.get(tokens[2])]) {
-                    try {
-                        jumpTo = Integer.parseInt(tokens[3]);
-                        machine.registers[32] = jumpTo-1;
-                    } catch (NumberFormatException e) {
-                        jumpTo = codeLabels.get(tokens[3]);
-                        machine.registers[32] = jumpTo-1;
+                    break;
+                case "bge":
+                    if (machine.registers[machine.regMap.get(tokens[1])] >= machine.registers[machine.regMap.get(tokens[2])]) {
+                        try {
+                            jumpTo = Integer.parseInt(tokens[3]);
+                            machine.registers[32] = jumpTo - 1;
+                        } catch (NumberFormatException e) {
+                            jumpTo = codeLabels.get(tokens[3]);
+                            machine.registers[32] = jumpTo - 1;
+                        }
                     }
-                }
-                break;
-            case "blt":
-                if (machine.registers[machine.regMap.get(tokens[1])] < machine.registers[machine.regMap.get(tokens[2])]) {
-                    try {
-                        jumpTo = Integer.parseInt(tokens[3]);
-                        machine.registers[32] = jumpTo-1;
-                    } catch (NumberFormatException e) {
-                        jumpTo = codeLabels.get(tokens[3]);
-                        machine.registers[32] = jumpTo-1;
+                    break;
+                case "blt":
+                    if (machine.registers[machine.regMap.get(tokens[1])] < machine.registers[machine.regMap.get(tokens[2])]) {
+                        try {
+                            jumpTo = Integer.parseInt(tokens[3]);
+                            machine.registers[32] = jumpTo - 1;
+                        } catch (NumberFormatException e) {
+                            jumpTo = codeLabels.get(tokens[3]);
+                            machine.registers[32] = jumpTo - 1;
+                        }
                     }
-                }
-                break;
-            case "ble":
-                if (machine.registers[machine.regMap.get(tokens[1])] <= machine.registers[machine.regMap.get(tokens[2])]) {
-                    try {
-                        jumpTo = Integer.parseInt(tokens[3]);
-                        machine.registers[32] = jumpTo-1;
-                    } catch (NumberFormatException e) {
-                        jumpTo = codeLabels.get(tokens[3]);
-                        machine.registers[32] = jumpTo-1;
+                    break;
+                case "ble":
+                    if (machine.registers[machine.regMap.get(tokens[1])] <= machine.registers[machine.regMap.get(tokens[2])]) {
+                        try {
+                            jumpTo = Integer.parseInt(tokens[3]);
+                            machine.registers[32] = jumpTo - 1;
+                        } catch (NumberFormatException e) {
+                            jumpTo = codeLabels.get(tokens[3]);
+                            machine.registers[32] = jumpTo - 1;
+                        }
                     }
-                }
-                break;
-            case "slt":
-                if (machine.registers[machine.regMap.get(tokens[2])] < machine.registers[machine.regMap.get(tokens[3])]) {
-                    machine.registers[machine.regMap.get(tokens[1])] = 1;
-                } else {
-                    machine.registers[machine.regMap.get(tokens[1])] = 0;
-                }
-                break;
-            case "slti":
-                if (machine.registers[machine.regMap.get(tokens[2])] < Integer.parseInt(tokens[3])) {
-                    machine.registers[machine.regMap.get(tokens[1])] = 1;
-                } else {
-                    machine.registers[machine.regMap.get(tokens[1])] = 0;
-                }
-                break;
-            case "j":
-                try {
-                    jumpTo = Integer.parseInt(tokens[1]);
-                } catch (NumberFormatException e) {
-                    jumpTo = codeLabels.get(tokens[1]);
-                }
-                machine.registers[32] = jumpTo - 1;
-                break;
-            case "jr":
-                machine.registers[32] = machine.registers[machine.regMap.get(tokens[1])]-1;
-                break;
-            case "jal":
-                try {
-                    jumpTo = Integer.parseInt(tokens[1]);
-                } catch (NumberFormatException e) {
-                    jumpTo = codeLabels.get(tokens[1]);
-                }
-                machine.registers[32] = jumpTo - 1;
-                machine.registers[31] = pc+1;
-                break;
-            case "syscall":
-                switch (machine.registers[2]) {
-                    case 1:
-                        machine.print_int();
-                        break;
-                    case 4:
-                        machine.print_string();
-                        break;
-                    case 5:
-                        machine.read_int();
-                        break;
-                    case 8:
-                        machine.read_string();
-                        break;
-                    case 9:
-                        machine.registers[2] = machine.mp;
-                    case 10:
-                    case 17:
-                        machine.registers[32] = code.size();
-                        break;
-                }
-                break;
-            default:
-                System.out.println("Invalid command: " + tokens[0] + " on line#" + pc);
-                machine.registers[32] = code.size();
+                    break;
+                case "slt":
+                    if (machine.registers[machine.regMap.get(tokens[2])] < machine.registers[machine.regMap.get(tokens[3])]) {
+                        machine.registers[machine.regMap.get(tokens[1])] = 1;
+                    } else {
+                        machine.registers[machine.regMap.get(tokens[1])] = 0;
+                    }
+                    break;
+                case "slti":
+                    if (machine.registers[machine.regMap.get(tokens[2])] < Integer.parseInt(tokens[3])) {
+                        machine.registers[machine.regMap.get(tokens[1])] = 1;
+                    } else {
+                        machine.registers[machine.regMap.get(tokens[1])] = 0;
+                    }
+                    break;
+                case "j":
+                    try {
+                        jumpTo = Integer.parseInt(tokens[1]);
+                    } catch (NumberFormatException e) {
+                        jumpTo = codeLabels.get(tokens[1]);
+                    }
+                    machine.registers[32] = jumpTo - 1;
+                    break;
+                case "jr":
+                    machine.registers[32] = machine.registers[machine.regMap.get(tokens[1])] - 1;
+                    break;
+                case "jal":
+                    try {
+                        jumpTo = Integer.parseInt(tokens[1]);
+                    } catch (NumberFormatException e) {
+                        jumpTo = codeLabels.get(tokens[1]);
+                    }
+                    machine.registers[32] = jumpTo - 1;
+                    machine.registers[31] = pc + 1;
+                    break;
+                case "syscall":
+                    switch (machine.registers[2]) {
+                        case 1:
+                            machine.print_int();
+                            break;
+                        case 4:
+                            machine.print_string();
+                            break;
+                        case 5:
+                            machine.read_int();
+                            break;
+                        case 8:
+                            machine.read_string();
+                            break;
+                        case 9:
+                            machine.registers[2] = machine.mp;
+                        case 10:
+                        case 17:
+                            machine.registers[32] = code.size();
+                            break;
+                    }
+                    break;
+                default:
+                    System.err.println("Invalid command: " + tokens[0] + " on line#" + pc);
+                    machine.registers[32] = code.size();
+                    int gt = 0;
+            }
+        } catch (Exception e) {
+            System.err.println("Error while executing line#"+pc+": \""+line+"\"");
+            machine.registers[32] = code.size();
         }
     }
 }

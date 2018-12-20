@@ -32,7 +32,7 @@
       <TextArea fx:id="code" layoutX="3.0" layoutY="27.0" prefHeight="449.0" prefWidth="542.0" wrapText="true" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="479.0" />
       <TableView fx:id="ram_table" layoutX="545.0" layoutY="27.0" prefHeight="449.0" prefWidth="240.0" AnchorPane.rightAnchor="239.0" />
       <TextArea fx:id="console" editable="false" layoutX="74.0" layoutY="524.0" prefHeight="245.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="523.0" />
-      <Text fill="#ff001a" layoutX="14.0" layoutY="510.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Console" textAlignment="CENTER" wrappingWidth="122.556640625" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="487.0">
+      <Text fill="#ff001a" layoutX="14.0" layoutY="510.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error Log" textAlignment="CENTER" wrappingWidth="122.556640625" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="487.0">
          <font>
             <Font size="21.0" />
          </font>

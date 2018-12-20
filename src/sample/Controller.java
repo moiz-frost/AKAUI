@@ -132,6 +132,6 @@ public class Controller {
         RAMTable.table.refresh();
         step_forward.setDisable(false);
         run_menu_item.setDisable(false);
-        System.out.println("Compiled");
+        System.err.println("Assembled");
     }
 }

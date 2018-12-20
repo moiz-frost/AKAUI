@@ -1,8 +1,10 @@
 package sample;
 
+
 public class LinkedMap<K, V> {
     private Entry<K, V>[] buckets;
     private int capacity = 35;
+    private int counter = 0;
     private Entry<K, V> head;
     private Entry<K, V> tail;
 
@@ -21,6 +23,8 @@ public class LinkedMap<K, V> {
         }
     }
 
+
+
     public V get(K key) {
         int hash = hash(key);
         Entry<K, V> curr = buckets[hash];
@@ -33,7 +37,17 @@ public class LinkedMap<K, V> {
         return null;
     }
 
+    /*
+    public void put(K key, V value){
+        if (counter <= capacity) {
+            buckets[counter++] = new Entry<K, V>[capacity];
+        }
+    }
+
+    */
+
     public void put(K key, V value) {
+
         if (key == null) {
             return;
         }
@@ -66,6 +80,7 @@ public class LinkedMap<K, V> {
     private int hash(K key) {
         return Math.abs(key.hashCode()) % capacity;
     }
+
 
     static class Entry<K, V> {
         K key;
