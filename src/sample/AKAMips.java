@@ -98,7 +98,7 @@ public class AKAMips {
     }
 
     void read_string() {
-        String s = input.next(".*\\n\\n");
+        String s = input.nextLine();
         int start = mp;
         boolean k = false;
         for (int j = 0; j < s.length(); j++, k = !k) {
@@ -113,8 +113,8 @@ public class AKAMips {
         } else {
             memory[mp++] += '\u0000';
         }
-        registers[2]=start;
-        registers[3]=s.length();
+        registers[4]=start;
+        registers[5]=s.length();
 
     }
 
