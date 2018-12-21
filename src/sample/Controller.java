@@ -12,15 +12,30 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.Scanner;
+import javafx.fxml.Initializable;
+import javafx.scene.input.KeyCharacterCombination;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.Mnemonic;
 
-public class Controller {
+public class Controller implements Initializable{
 
     @FXML
     private AnchorPane anchor;
 
     @FXML
+    private MenuItem open;
+    
+    @FXML
+    private MenuItem save;
+    
+    @FXML
     private MenuItem assemble;
+    
     @FXML
     private MenuItem run_menu_item;
 
@@ -36,6 +51,24 @@ public class Controller {
     AKAMips asm = new AKAMips();
 
     File selectedFile;
+
+    KeyCombination savekp = new KeyCharacterCombination("S", KeyCombination.CONTROL_DOWN);
+    KeyCombination openkp = new KeyCharacterCombination("O", KeyCombination.CONTROL_DOWN);
+    KeyCombination assemblekp = new KeyCodeCombination(KeyCode.F5);
+    KeyCombination runkp = new KeyCodeCombination(KeyCode.F6);
+    KeyCombination stepkp = new KeyCodeCombination(KeyCode.F8);
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        open.setAccelerator(openkp);
+        save.setAccelerator(savekp);
+        assemble.setAccelerator(assemblekp);
+        run_menu_item.setAccelerator(runkp);
+        step_forward.setAccelerator(stepkp);
+    }
+
+
+
 
     @FXML
     public void chooseSingleFile(ActionEvent event) {
@@ -138,4 +171,6 @@ public class Controller {
         run_menu_item.setDisable(false);
         System.err.println("Assembled");
     }
+
+    
 }
