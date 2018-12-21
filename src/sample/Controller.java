@@ -58,6 +58,7 @@ public class Controller {
                 code.appendText(line + "\n");
             }
             assemble.setDisable(false);
+            code.setDisable(false);
         }
     }
 
@@ -129,10 +130,12 @@ public class Controller {
         for (int i = 0; i < asm.memory.length; i++) {
             RAMTable.data.get(i).setValue(asm.memory[i]);
         }
+        asm.registers[32] = 0;
+        RegisterTable.data.get(32).setValue(0);
+        RegisterTable.table.refresh();
         RAMTable.table.refresh();
         step_forward.setDisable(false);
         run_menu_item.setDisable(false);
-        asm.registers[32] = 0;
         System.err.println("Assembled");
     }
 }
