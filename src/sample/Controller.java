@@ -62,7 +62,7 @@ public class Controller {
     }
 
     @FXML
-    public void saveFile(ActionEvent event){
+    public void saveFile(ActionEvent event) {
         if (selectedFile != null) {
             try {
                 File file = selectedFile;
@@ -132,6 +132,7 @@ public class Controller {
         RAMTable.table.refresh();
         step_forward.setDisable(false);
         run_menu_item.setDisable(false);
+        asm.registers[32] = 0;
         System.err.println("Assembled");
     }
 }
