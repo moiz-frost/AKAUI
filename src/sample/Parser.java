@@ -99,12 +99,15 @@ public class Parser {
         int jumpTo;
         try {
             switch (tokens[0]) {
+                case "addu":
                 case "add":
                     machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])] + machine.registers[machine.regMap.get(tokens[3])];
                     break;
+                case "subu":
                 case "sub":
                     machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])] - machine.registers[machine.regMap.get(tokens[3])];
                     break;
+                case "addiu":
                 case "addi":
                     machine.registers[machine.regMap.get(tokens[1])] = machine.registers[machine.regMap.get(tokens[2])] + Integer.parseInt(tokens[3]);
                     break;
@@ -159,7 +162,6 @@ public class Parser {
 //                code.set(pc, "lui $at, 4097");
 //                code.add(pc + 1, "ori " + tokens[1] + ", $at, ");
 //                machine.registers[32]--;
-
 
                     machine.registers[machine.regMap.get(tokens[1])] = dataLabels.get(tokens[2]);
                     break;
@@ -291,6 +293,13 @@ public class Parser {
                             break;
                         case 9:
                             machine.registers[2] = machine.mp;
+                            break;
+                        case 11:
+                            machine.print_char();
+                            break;
+                        case 12:
+                            machine.read_char();
+                            break;
                         case 10:
                         case 17:
                             machine.registers[32] = code.size();
@@ -303,8 +312,9 @@ public class Parser {
                     int gt = 0;
             }
         } catch (Exception e) {
-            System.err.println("Error while executing line#"+pc+": \""+line+"\"");
+            System.err.println("Error while executing line#" + pc + ": \"" + line + "\"");
             machine.registers[32] = code.size();
+            e.printStackTrace();
         }
     }
 }

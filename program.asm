@@ -2,9 +2,11 @@
 #.space 4
 #SHIT: .ascii "babli"
 .text
-li $v0, 8
+li $v0, 12
 syscall
 #la $a0, SHIT
-li $v0, 4
+li $a0, 0
+addi $a0, $v0, 0
+li $v0, 11
 syscall
 

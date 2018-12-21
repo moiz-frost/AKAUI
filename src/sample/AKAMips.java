@@ -97,6 +97,14 @@ public class AKAMips {
 //        }
     }
 
+    void print_char() {
+        System.out.println((char)registers[4]);   
+    }
+
+    void read_char() {
+        registers[2] = input.next().charAt(0);
+    }   
+    
     void read_string() {
         String s = input.nextLine();
         int start = mp;
@@ -141,5 +149,6 @@ public class AKAMips {
 //        asm.loadFile(file);
 //        asm.exec();
     }
+
 
 }
